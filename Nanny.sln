@@ -5,6 +5,10 @@ VisualStudioVersion = 17.1.31911.260
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny", "src\Nanny\Nanny.csproj", "{8B395866-5A6F-4BFB-8590-3CE80E008B9D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{887ADC8A-2BE6-451E-9B95-17D97C821AE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.Tests", "src\Nanny.Tests\Nanny.Tests.csproj", "{FB92A995-9FFC-4B15-AB9B-262A5D525C69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,10 @@ Global
 		{8B395866-5A6F-4BFB-8590-3CE80E008B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B395866-5A6F-4BFB-8590-3CE80E008B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B395866-5A6F-4BFB-8590-3CE80E008B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB92A995-9FFC-4B15-AB9B-262A5D525C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB92A995-9FFC-4B15-AB9B-262A5D525C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB92A995-9FFC-4B15-AB9B-262A5D525C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB92A995-9FFC-4B15-AB9B-262A5D525C69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
