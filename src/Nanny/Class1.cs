@@ -11,4 +11,13 @@ namespace Nanny
             MyProperty = myProperty;
         }
     }
+    public class Dummy2
+    {
+        public int MyProperty { get;  }
+
+        public Dummy2(int myProperty)
+        {
+            MyProperty = myProperty;
+        }
+    }
 }

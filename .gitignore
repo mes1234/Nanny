@@ -9,8 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
-##sonarqubecoverage/**
-##.sonarqube/**
+sonarqubecoverage/**
+.sonarqube/**
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

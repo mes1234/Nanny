@@ -15,5 +15,15 @@ namespace Nanny.Tests
             nanny.MyProperty.Should().Be(value);
 
         }
+
+        [Theory]
+        [AutoData]
+        public void Test2(int value)
+        {
+            var nanny =  new Nanny.Dummy2(value);
+
+            nanny.MyProperty.Should().Be(value);
+
+        }
     }
 }
