@@ -6,10 +6,10 @@ namespace Nanny.Configuration
 {
     public class StartOptions
     {
-        private readonly string _reconnectionType = "once";
+        private readonly string _reconnectionType;
 
-        public static StartOptions TryForever = new StartOptions("forever");
-        public static StartOptions TryOnce = new StartOptions("once");
+        public readonly static StartOptions TryForever = new StartOptions("forever");
+        public readonly static StartOptions TryOnce = new StartOptions("once");
 
         protected StartOptions(string reconnectionType)
         {
