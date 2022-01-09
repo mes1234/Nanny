@@ -5,10 +5,14 @@ namespace Playground
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
+        private readonly INanny _nanny;
 
-        public Worker(ILogger<Worker> logger)
+        public Worker(
+            ILogger<Worker> logger,
+            INanny nanny)
         {
             _logger = logger;
+            _nanny = nanny;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
