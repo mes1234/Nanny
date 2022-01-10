@@ -15,12 +15,13 @@ namespace Nanny.Tests
             var nanny = new AsyncNanny(new Configuration.NannyConfig
             {
                 StartOptions = StartOptions.TryForever,
+                Cts = new CancellationTokenSource(),
             });
 
-            Assert.Throws<NotImplementedException>(() =>
-            {
-                nanny.StartAsync();
-            });
+            Assert.ThrowsAsync<NotImplementedException>(async () =>
+           {
+               await nanny.StartAsync();
+           });
         }
     }
 }

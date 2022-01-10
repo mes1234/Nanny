@@ -18,9 +18,21 @@ namespace Playground
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await _nanny
-                .RegisterStart(async () =>
+                .RegisterStart(async (token) =>
              {
-                 while (!stoppingToken.IsCancellationRequested)
+                 var counter = 0;
+                 while (!token.IsCancellationRequested)
+                 {
+                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                     await Task.Delay(1000, stoppingToken);
+                     counter++;
+                     if (counter > 10) return;
+                 }
+                 return;
+             })
+                .RegisterRestart(async (token) =>
+             {
+                 while (!token.IsCancellationRequested)
                  {
                      _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
                      await Task.Delay(1000, stoppingToken);

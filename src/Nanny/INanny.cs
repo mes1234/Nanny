@@ -18,13 +18,13 @@ namespace Nanny
         ///  Start function
         /// </summary>
         /// <param name="func">starting function</param>
-        public INanny RegisterStart(Func<Task> func);
+        public INanny RegisterStart(Func<CancellationToken, Task> func);
 
         /// <summary>
         /// Function triggered when start function completes 
         /// </summary>
         /// <param name="func"></param>
-        public INanny RegisterRestart(Func<Task> func);
+        public INanny RegisterRestart(Func<CancellationToken, Task> func);
 
         /// <summary>
         /// Start babysitting
