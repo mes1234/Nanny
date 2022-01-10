@@ -29,8 +29,7 @@ namespace Nanny
         /// <summary>
         /// Start babysitting
         /// </summary>
-        /// <exception cref="NotImplementedException">No start/stop prcedure was registered</exception>
         /// <returns>awaitable Task</returns>
-        public Task StartAsync(CancellationTokenSource cts);
+        public Task StartAsync();
     }
 }

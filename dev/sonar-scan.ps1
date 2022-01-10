@@ -1,4 +1,12 @@
-dotnet sonarscanner begin /k:"nanny" /d:sonar.sources="src" /d:sonar.host.url="$env:SONAR_ADDRESS" /d:sonar.login="$env:SONAR_TOKEN" /d:sonar.cs.xunit.reportsPaths="**/TestResults/TestResults.xml" /d:sonar.coverageReportPaths="../sonarqubecoverage/SonarQube.xml" 
+dotnet sonarscanner `
+         begin `
+         /k:"nanny" `
+         /d:sonar.sources="src" `
+         /d:sonar.host.url="$env:SONAR_ADDRESS" `
+         /d:sonar.login="$env:SONAR_TOKEN" `
+         /d:sonar.cs.xunit.reportsPaths="**/TestResults/TestResults.xml" `
+         /d:sonar.coverageReportPaths="../sonarqubecoverage/SonarQube.xml" `
+         /d:sonar.exclusions="Nanny.Tests/**, Playground/**"
 
 dotnet build
 

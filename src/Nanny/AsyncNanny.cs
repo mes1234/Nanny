@@ -34,13 +34,13 @@ namespace Nanny
         }
 
         /// <inheritdoc />
-        public Task StartAsync(CancellationTokenSource cts)
+        public Task StartAsync()
         {
-            cts.Token.ThrowIfCancellationRequested();
+            _nannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
             if (_startFunction == null) throw new NotImplementedException();
 
-            return Task.CompletedTask;
+            return _startFunction();
         }
     }
 }
