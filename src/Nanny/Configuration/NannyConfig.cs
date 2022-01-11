@@ -10,5 +10,7 @@ namespace Nanny.Configuration
         public StartOptions StartOptions { get; init; }
 
         public CancellationTokenSource Cts { get; init; }
+
+        public int Retries { get; init; } = 0;
     }
 }

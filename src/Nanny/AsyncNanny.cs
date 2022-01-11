@@ -13,14 +13,12 @@ namespace Nanny
     public class AsyncNanny : INanny
     {
         private readonly NannyConfig _nannyConfig;
-        private readonly CancellationTokenSource _tokenSource;
         private Func<CancellationToken, Task>? _startFunction;
         private Func<CancellationToken, Task>? _restartFunction;
 
         public AsyncNanny(NannyConfig nannyConfig)
         {
             _nannyConfig = nannyConfig;
-            _tokenSource = _nannyConfig.Cts;
         }
 
         /// <inheritdoc />
@@ -40,16 +38,19 @@ namespace Nanny
         /// <inheritdoc />
         public async Task StartAsync()
         {
-            _tokenSource.Token.ThrowIfCancellationRequested();
+            _nannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
             if (_startFunction == null) throw new NotImplementedException();
+
             if (_restartFunction == null) throw new NotImplementedException();
 
-            await _startFunction(_tokenSource.Token).ConfigureAwait(false);
+            await _startFunction(_nannyConfig.Cts.Token).ConfigureAwait(false);
 
-            await _restartFunction(_tokenSource.Token).ConfigureAwait(false);
+            await _nannyConfig
+                .StartOptions
+                .Runner(_restartFunction, _nannyConfig).ConfigureAwait(false);
 
-            _tokenSource.Cancel();
+            _nannyConfig.Cts.Cancel();
 
         }
     }
