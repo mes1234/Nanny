@@ -10,11 +10,11 @@ namespace Nanny.Configuration
     internal static class Runners
     {
 
-        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> ForeverRunner = (function, nannyConfig) =>
+        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> ForeverRunner = async (function, nannyConfig) =>
         {
             while (true)
             {
-                function(nannyConfig.Cts.Token);
+                await function(nannyConfig.Cts.Token).ConfigureAwait(false);
             }
         };
 

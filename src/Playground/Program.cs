@@ -13,7 +13,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddTransient<INanny, AsyncNanny>();
         services.AddSingleton<NannyConfig>(sp => new NannyConfig
         {
-            StartOptions = StartOptions.TryOnce,
+            StartOptions = StartOptions.TryForever,
             Cts = cts,
         });
     })
