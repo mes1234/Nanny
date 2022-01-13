@@ -16,9 +16,9 @@ namespace Nanny.Configuration
             ContinueFlag = continueFlag;
         }
 
-        public static ErrorHandlers CatchLogContinue = new ErrorHandlers(true, true, true);
+        public readonly static ErrorHandlers CatchLogContinue = new ErrorHandlers(true, true, true);
 
-        public static ErrorHandlers ThrowAndLog = new ErrorHandlers(false, true, false);
+        public readonly static ErrorHandlers ThrowAndLog = new ErrorHandlers(false, true, false);
 
         public bool CatchFlag { get; }
         public bool LogFlag { get; }
@@ -39,7 +39,7 @@ namespace Nanny.Configuration
                     throw;
 
                 if (!ContinueFlag)
-                    throw new Exception("Nanny cannot continue");
+                    throw new InvalidOperationException("Nanny cannot continue");
             }
         }
 

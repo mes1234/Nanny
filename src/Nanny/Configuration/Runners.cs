@@ -24,7 +24,6 @@ namespace Nanny.Configuration
             {
                 await function(nannyConfig.Cts.Token).ConfigureAwait(false);
             }
-            return;
         };
 
 
