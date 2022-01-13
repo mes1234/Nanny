@@ -23,20 +23,26 @@ namespace Playground
                      var counter = 0;
                      while (!token.IsCancellationRequested)
                      {
-                         _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                         _logger.LogInformation("Worker running start {times} times", counter);
                          await Task.Delay(1000, stoppingToken);
                          counter++;
-                         if (counter > 10) return;
+                         if (counter > 10) throw new Exception("Random one");
+                         //return;
                      }
-                     return;
+                     throw new Exception("Random one");
                  })
-                .RegisterRestart((token) =>
+                .RegisterRestart(async (token) =>
                   {
-                      token.ThrowIfCancellationRequested();
-
-                      _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-
-                      return Task.Delay(1000, stoppingToken);
+                      var counter = 0;
+                      while (!token.IsCancellationRequested)
+                      {
+                          _logger.LogInformation("Worker running restart {times} times", counter);
+                          await Task.Delay(1000, stoppingToken);
+                          counter++;
+                          if (counter > 10) throw new Exception("Random one");
+                          //return;
+                      }
+                      throw new Exception("Random one");
                   })
                    .StartAsync();
 

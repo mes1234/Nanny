@@ -18,13 +18,13 @@ namespace Nanny.Configuration
             }
         };
 
-        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> MultipleRunner = (function, nannyConfig) =>
+        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> MultipleRunner = async (function, nannyConfig) =>
         {
             for (int i = 0; i < nannyConfig.Retries; i++)
             {
-                function(nannyConfig.Cts.Token);
+                await function(nannyConfig.Cts.Token).ConfigureAwait(false);
             }
-            return Task.CompletedTask;
+            return;
         };
 
 

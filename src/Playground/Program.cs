@@ -14,7 +14,9 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<NannyConfig>(sp => new NannyConfig
         {
             StartOptions = StartOptions.TryForever,
+            ErrorHandler = ErrorHandlers.CatchLogContinue,
             Cts = cts,
+            Retries = 2,
         });
     })
     .Build();

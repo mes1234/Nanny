@@ -7,10 +7,12 @@ namespace Nanny.Configuration
 {
     public class NannyConfig
     {
-        public StartOptions StartOptions { get; init; }
+        public StartOptions StartOptions { get; init; } = StartOptions.TryOnce;
 
-        public CancellationTokenSource Cts { get; init; }
+        public CancellationTokenSource Cts { get; init; } = new CancellationTokenSource();
 
         public int Retries { get; init; } = 0;
+
+        public ErrorHandlers ErrorHandler { get; init; } = ErrorHandlers.CatchLogContinue;
     }
 }
