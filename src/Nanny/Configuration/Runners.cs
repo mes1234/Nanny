@@ -14,6 +14,8 @@ namespace Nanny.Configuration
         {
             while (true)
             {
+                nannyConfig.Cts.Token.ThrowIfCancellationRequested();
+
                 await function(nannyConfig.Cts.Token).ConfigureAwait(false);
             }
         };
@@ -22,6 +24,8 @@ namespace Nanny.Configuration
         {
             for (int i = 0; i < nannyConfig.Retries; i++)
             {
+                nannyConfig.Cts.Token.ThrowIfCancellationRequested();
+
                 await function(nannyConfig.Cts.Token).ConfigureAwait(false);
             }
         };

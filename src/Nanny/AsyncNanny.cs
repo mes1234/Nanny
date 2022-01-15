@@ -45,11 +45,11 @@ namespace Nanny
 
                 await _nannyConfig
                     .ErrorHandler
-                    .Handle(StartFunctionRun());
+                    .Handle(StartFunctionRun(), _nannyConfig.Logger);
 
                 await _nannyConfig
                     .ErrorHandler
-                    .Handle(RestartFunctionRun());
+                    .Handle(RestartFunctionRun(), _nannyConfig.Logger);
 
                 KillAll();
             }

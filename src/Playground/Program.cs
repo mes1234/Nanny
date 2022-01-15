@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Abstractions;
 using Nanny;
 using Nanny.Configuration;
 using Playground;
@@ -17,6 +18,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             ErrorHandler = ErrorHandlers.CatchLogContinue,
             Cts = cts,
             Retries = 2,
+            Logger = sp.GetService<ILogger<NannyConfig>>() ?? NullLogger<NannyConfig>.Instance,
         });
     })
     .Build();

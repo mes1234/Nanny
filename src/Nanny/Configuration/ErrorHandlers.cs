@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,16 +26,17 @@ namespace Nanny.Configuration
         public bool LogFlag { get; }
         public bool ContinueFlag { get; }
 
-        public async Task Handle(Func<Task> func)
+        public async Task Handle(Func<Task> func, ILogger? logger = null)
         {
+            var _logger = logger ?? NullLogger.Instance;
             try
             {
                 await func().ConfigureAwait(false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (LogFlag)
-                    Console.WriteLine("Error happened");
+                    _logger.LogError("Error occured {Msg}", ex.Message);
 
                 if (!CatchFlag)
                     throw;
