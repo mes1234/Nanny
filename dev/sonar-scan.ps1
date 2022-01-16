@@ -6,7 +6,8 @@ dotnet sonarscanner `
          /d:sonar.login="$env:SONAR_TOKEN" `
          /d:sonar.cs.xunit.reportsPaths="**/TestResults/TestResults.xml" `
          /d:sonar.coverageReportPaths="../sonarqubecoverage/SonarQube.xml" `
-         /d:sonar.exclusions="Nanny.Tests/**, Playground/**"
+         /d:sonar.dotnet.excludeTestProjects=true `
+         /d:sonar.exclusions="Playground/**"
 
 dotnet build
 

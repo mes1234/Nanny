@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
+using Nanny.Configuration;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,11 @@ namespace Nanny.Tests
 
             var runner = Nanny.Configuration.StartOptions.TryForever.Runner;
 
-            var config = new Nanny.Configuration.NannyConfig
-            {
-                Cts = new CancellationTokenSource(),
-            };
+            var config = new Nanny.Configuration.NannyConfig();
 
-            config.Cts.CancelAfter(1000);
+            NannyConfig.Cts = new CancellationTokenSource();
+
+            NannyConfig.Cts.CancelAfter(1000);
 
             try
             {
@@ -51,11 +51,11 @@ namespace Nanny.Tests
 
             var config = new Nanny.Configuration.NannyConfig
             {
-                Cts = new CancellationTokenSource(),
                 Retries = 5,
             };
+            NannyConfig.Cts = new CancellationTokenSource();
 
-            config.Cts.CancelAfter(10000);
+            NannyConfig.Cts.CancelAfter(10000);
 
             try
             {

@@ -33,6 +33,13 @@ namespace Nanny.Configuration
             {
                 await func().ConfigureAwait(false);
             }
+            catch (OperationCanceledException ex)
+            {
+                if (LogFlag)
+                    _logger.LogError("Operation was cancelled {Msg}", ex.Message);
+
+                throw;
+            }
             catch (Exception ex)
             {
                 if (LogFlag)

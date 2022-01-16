@@ -3,24 +3,24 @@ using Nanny;
 using Nanny.Configuration;
 using Playground;
 
-var cts = new CancellationTokenSource();
+NannyConfig.Cts = new CancellationTokenSource();
 
 //cts.CancelAfter(10000);
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
-        services.AddHostedService<Worker>();
+        services.AddHostedService<WorkerA>();
+        services.AddHostedService<WorkerB>();
         services.AddTransient<INanny, AsyncNanny>();
         services.AddSingleton<NannyConfig>(sp => new NannyConfig
         {
             StartOptions = StartOptions.TryForever,
-            ErrorHandler = ErrorHandlers.CatchLogContinue,
-            Cts = cts,
+            ErrorHandler = ErrorHandlers.ThrowAndLog,
             Retries = 2,
             Logger = sp.GetService<ILogger<NannyConfig>>() ?? NullLogger<NannyConfig>.Instance,
         });
     })
     .Build();
 
-await host.RunAsync(cts.Token);
+await host.RunAsync(NannyConfig.Cts.Token);

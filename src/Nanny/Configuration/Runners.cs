@@ -14,9 +14,9 @@ namespace Nanny.Configuration
         {
             while (true)
             {
-                nannyConfig.Cts.Token.ThrowIfCancellationRequested();
+                NannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
-                await function(nannyConfig.Cts.Token).ConfigureAwait(false);
+                await function(NannyConfig.Cts.Token).ConfigureAwait(false);
             }
         };
 
@@ -24,13 +24,13 @@ namespace Nanny.Configuration
         {
             for (int i = 0; i < nannyConfig.Retries; i++)
             {
-                nannyConfig.Cts.Token.ThrowIfCancellationRequested();
+                NannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
-                await function(nannyConfig.Cts.Token).ConfigureAwait(false);
+                await function(NannyConfig.Cts.Token).ConfigureAwait(false);
             }
         };
 
 
-        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> SingleRunner = (function, nannyConfig) => function(nannyConfig.Cts.Token);
+        internal readonly static Func<Func<CancellationToken, Task>, NannyConfig, Task> SingleRunner = (function, nannyConfig) => function(NannyConfig.Cts.Token);
     }
 }

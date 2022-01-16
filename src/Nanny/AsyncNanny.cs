@@ -41,15 +41,16 @@ namespace Nanny
 
             try
             {
-                _nannyConfig.Cts.Token.ThrowIfCancellationRequested();
+                NannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
                 await _nannyConfig
                     .ErrorHandler
                     .Handle(StartFunctionRun(), _nannyConfig.Logger);
 
-                await _nannyConfig
-                    .ErrorHandler
-                    .Handle(RestartFunctionRun(), _nannyConfig.Logger);
+                if (_restartFunction != null)
+                    await _nannyConfig
+                        .ErrorHandler
+                        .Handle(RestartFunctionRun(), _nannyConfig.Logger);
 
                 KillAll();
             }
@@ -57,14 +58,11 @@ namespace Nanny
             {
                 KillAll();
             }
-
-
-
         }
 
-        private void KillAll()
+        private static void KillAll()
         {
-            _nannyConfig.Cts.Cancel();
+            NannyConfig.Cts.Cancel();
         }
 
         private Func<Task> RestartFunctionRun()
@@ -78,7 +76,7 @@ namespace Nanny
         {
             if (_startFunction == null) throw new NotImplementedException();
 
-            return async () => await _startFunction(_nannyConfig.Cts.Token).ConfigureAwait(false);
+            return async () => await _startFunction(NannyConfig.Cts.Token).ConfigureAwait(false);
         }
 
         private Func<CancellationToken, Task> ErrorHandledFunction()
