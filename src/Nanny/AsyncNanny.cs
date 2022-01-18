@@ -1,4 +1,5 @@
-﻿using Nanny.Configuration;
+﻿using Microsoft.Extensions.Logging;
+using Nanny.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,8 +14,10 @@ namespace Nanny
     public class AsyncNanny : INanny
     {
         private readonly NannyConfig _nannyConfig;
-        private Func<CancellationToken, Task>? _startFunction;
-        private Func<CancellationToken, Task>? _restartFunction;
+        private Func<CancellationToken, Task> _startFunction = NoOp;
+        private Func<CancellationToken, Task> _restartFunction = NoOp;
+
+        private static Func<CancellationToken, Task> NoOp = (token) => Task.CompletedTask;
 
         public AsyncNanny(NannyConfig nannyConfig)
         {
@@ -44,13 +47,12 @@ namespace Nanny
                 NannyConfig.Cts.Token.ThrowIfCancellationRequested();
 
                 await _nannyConfig
-                    .ErrorHandler
+                    .ErrorOptions
                     .Handle(StartFunctionRun(), _nannyConfig.Logger);
 
-                if (_restartFunction != null)
-                    await _nannyConfig
-                        .ErrorHandler
-                        .Handle(RestartFunctionRun(), _nannyConfig.Logger);
+                await _nannyConfig
+                    .ErrorOptions
+                    .Handle(RestartFunctionRun(), _nannyConfig.Logger);
 
                 KillAll();
             }
@@ -65,25 +67,14 @@ namespace Nanny
             NannyConfig.Cts.Cancel();
         }
 
-        private Func<Task> RestartFunctionRun()
-        {
-            return async () => await _nannyConfig
-                    .StartOptions
-                    .Runner(ErrorHandledFunction(), _nannyConfig).ConfigureAwait(false);
-        }
+        private Func<Task> RestartFunctionRun() => async ()
+            => await _nannyConfig
+                 .StartOptions
+                 .Runner(ErrorHandledFunction(), _nannyConfig).ConfigureAwait(false);
 
-        private Func<Task> StartFunctionRun()
-        {
-            if (_startFunction == null) throw new NotImplementedException();
+        private Func<Task> StartFunctionRun() => async () => await _startFunction(NannyConfig.Cts.Token).ConfigureAwait(false);
 
-            return async () => await _startFunction(NannyConfig.Cts.Token).ConfigureAwait(false);
-        }
+        private Func<CancellationToken, Task> ErrorHandledFunction() => (token) => _nannyConfig.ErrorOptions.Handle(() => _restartFunction(token), _nannyConfig.Logger);
 
-        private Func<CancellationToken, Task> ErrorHandledFunction()
-        {
-            if (_restartFunction == null) throw new NotImplementedException();
-
-            return (token) => _nannyConfig.ErrorHandler.Handle(() => _restartFunction(token));
-        }
     }
 }

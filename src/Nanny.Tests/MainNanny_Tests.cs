@@ -24,7 +24,7 @@ namespace Nanny.Tests
             var nanny = new AsyncNanny(new Configuration.NannyConfig
             {
                 StartOptions = Configuration.StartOptions.TryOnce,
-                ErrorHandler = Configuration.ErrorHandlers.CatchLogContinue,
+                ErrorOptions = Configuration.ErrorOptions.CatchLogContinue,
             });
 
             Configuration.NannyConfig.Cts = new CancellationTokenSource();
@@ -54,7 +54,7 @@ namespace Nanny.Tests
             var nanny = new AsyncNanny(new Configuration.NannyConfig
             {
                 StartOptions = Configuration.StartOptions.TryOnce,
-                ErrorHandler = Configuration.ErrorHandlers.CatchLogContinue,
+                ErrorOptions = Configuration.ErrorOptions.CatchLogContinue,
             });
 
             Configuration.NannyConfig.Cts = new CancellationTokenSource();

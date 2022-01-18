@@ -9,49 +9,45 @@ using System.Threading.Tasks;
 
 namespace Nanny.Configuration
 {
-    public class ErrorHandlers
+
+    internal static class ErrorHandlers
     {
-        public ErrorHandlers(bool catchFlag, bool logFlag, bool continueFlag)
+        public readonly static Func<Func<Task>, ILogger, Task> CatchLogContinue = async (func, logger) =>
         {
-            CatchFlag = catchFlag;
-            LogFlag = logFlag;
-            ContinueFlag = continueFlag;
-        }
-
-        public readonly static ErrorHandlers CatchLogContinue = new ErrorHandlers(true, true, true);
-
-        public readonly static ErrorHandlers ThrowAndLog = new ErrorHandlers(false, true, false);
-
-        public bool CatchFlag { get; }
-        public bool LogFlag { get; }
-        public bool ContinueFlag { get; }
-
-        public async Task Handle(Func<Task> func, ILogger? logger = null)
-        {
-            var _logger = logger ?? NullLogger.Instance;
             try
             {
                 await func().ConfigureAwait(false);
             }
             catch (OperationCanceledException ex)
             {
-                if (LogFlag)
-                    _logger.LogError("Operation was cancelled {Msg}", ex.Message);
+                logger.LogError("Operation was cancelled {Msg}", ex.Message);
 
                 throw;
             }
             catch (Exception ex)
             {
-                if (LogFlag)
-                    _logger.LogError("Error occured {Msg}", ex.Message);
-
-                if (!CatchFlag)
-                    throw;
-
-                if (!ContinueFlag)
-                    throw new InvalidOperationException("Nanny cannot continue");
+                logger.LogError("Error occured {Msg}", ex.Message);
             }
-        }
+        };
 
+        public readonly static Func<Func<Task>, ILogger, Task> CatchLogThrow = async (func, logger) =>
+        {
+            try
+            {
+                await func().ConfigureAwait(false);
+            }
+            catch (OperationCanceledException ex)
+            {
+                logger.LogError("Operation was cancelled {Msg}", ex.Message);
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError("Error occured {Msg}", ex.Message);
+
+                throw;
+            }
+        };
     }
 }

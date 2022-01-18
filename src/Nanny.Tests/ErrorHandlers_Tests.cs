@@ -14,7 +14,7 @@ namespace Nanny.Tests
         [Fact]
         public async Task ErrorRaisedIsHandled_Test()
         {
-            var errorHandler = Nanny.Configuration.ErrorHandlers.CatchLogContinue;
+            var errorHandler = Nanny.Configuration.ErrorOptions.CatchLogContinue;
 
             var logger = Substitute.For<MockLogger>();
 
@@ -28,7 +28,7 @@ namespace Nanny.Tests
         [Fact]
         public async Task ErrorRaisedIsThrown_Test()
         {
-            var errorHandler = Nanny.Configuration.ErrorHandlers.ThrowAndLog;
+            var errorHandler = Nanny.Configuration.ErrorOptions.ThrowAndLog;
 
             var logger = Substitute.For<MockLogger>();
 

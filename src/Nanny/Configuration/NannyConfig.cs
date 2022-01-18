@@ -15,7 +15,7 @@ namespace Nanny.Configuration
 
         public int Retries { get; init; } = 0;
 
-        public ErrorHandlers ErrorHandler { get; init; } = ErrorHandlers.CatchLogContinue;
+        public ErrorOptions ErrorOptions { get; init; } = ErrorOptions.CatchLogContinue;
 
         public ILogger Logger { get; init; } = NullLogger.Instance;
     }
